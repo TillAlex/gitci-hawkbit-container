@@ -1,3 +1,4 @@
+
 FROM debian:stretch
 
 MAINTAINER Milo Casagrande <milo.casagrande@linaro.org>
@@ -23,7 +24,7 @@ RUN apt-get clean && apt-get update && apt-get install --no-install-recommends -
     && rm -rf /var/lib/apt/lists/*
 
 # Use a custom pom.xml file where we add the mariadb dependency.
-COPY pom.xml /srv/hawkbit/examples/hawkbit-example-app
+COPY pom.xml /srv/hawkbit/hawkbit-runtime/hawkbit-update-server/
 
 # Custom styles, TODO
 # COPY hawkbitvariables.scss /srv/hawkbit/hawkbit-ui/src/main/resources/VAADIN/themes/hawkbit/customstyles
@@ -36,5 +37,6 @@ RUN mvn clean install -DskipTests
 COPY application.properties /srv
 
 EXPOSE 8080
-WORKDIR /srv/hawkbit/examples/hawkbit-example-app/target
-CMD ["java", "-jar", "hawkbit-example-app-0.2.0-SNAPSHOT.jar", "--spring.config.location=file:/srv/application.properties,file:/srv/secrets/secrets.properties"]
+WORKDIR /srv/hawkbit/hawkbit-runtime/hawkbit-update-server/target/
+CMD ["java", "-jar", "hawkbit-update-server-0.2.0-SNAPSHOT.jar", "--spring.config.location=file:/srv/application.properties,file:/srv/secrets/secrets.properties"]
+
